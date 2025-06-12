@@ -505,6 +505,15 @@ const SPGManagementDashboard = () => {
     );
   };
 
+  // Add this function above the return statement
+const renderScheduling = () => (
+  <div className="text-center py-12">
+    <Clock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+    <h3 className="text-lg font-medium text-gray-900 mb-2">Scheduling</h3>
+    <p className="text-gray-600">Event scheduling and assignment features would be implemented here.</p>
+  </div>
+);
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
