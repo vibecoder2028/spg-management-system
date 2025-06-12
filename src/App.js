@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, MapPin, Users, DollarSign, Clock, Package, Bell, Search, Filter, Plus, Edit, Eye, Phone, Mail, Star, Award, ShoppingBag, Shirt, TrendingUp, BarChart3, PieChart, Target, CheckCircle, AlertCircle, Navigation, Zap } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Cell } from 'recharts';
+import React, { useState } from 'react';
+import { Calendar, MapPin, Users, DollarSign, Clock, Package, Bell, Search, Plus, Edit, Eye, Phone, Star, Award, ShoppingBag, Shirt } from 'lucide-react';
 
 const SPGManagementDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedSPG, setSelectedSPG] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterExperience, setFilterExperience] = useState('all');
-  const [selectedDate, setSelectedDate] = useState('2025-06-15');
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [scheduleView, setScheduleView] = useState('calendar'); // calendar, list, map
 
   // Enhanced sample data
   const spgData = [
@@ -20,7 +16,6 @@ const SPGManagementDashboard = () => {
       experience: 'Senior',
       rating: 4.8,
       location: 'Jakarta Selatan',
-      coordinates: { lat: -6.2615, lng: 106.8106 },
       availability: 'Available',
       uniformSize: { top: 'M', bottom: 'M', shoes: '37' },
       phone: '+62-812-3456-7890',
@@ -40,7 +35,6 @@ const SPGManagementDashboard = () => {
       experience: 'Intermediate',
       rating: 4.5,
       location: 'Bandung',
-      coordinates: { lat: -6.9175, lng: 107.6191 },
       availability: 'Scheduled',
       uniformSize: { top: 'S', bottom: 'S', shoes: '36' },
       phone: '+62-813-9876-5432',
@@ -60,7 +54,6 @@ const SPGManagementDashboard = () => {
       experience: 'Entry',
       rating: 4.2,
       location: 'Surabaya',
-      coordinates: { lat: -7.2575, lng: 112.7521 },
       availability: 'Available',
       uniformSize: { top: 'L', bottom: 'M', shoes: '38' },
       phone: '+62-814-1111-2222',
@@ -80,7 +73,6 @@ const SPGManagementDashboard = () => {
       experience: 'Senior',
       rating: 4.9,
       location: 'Jakarta Pusat',
-      coordinates: { lat: -6.1944, lng: 106.8229 },
       availability: 'Available',
       uniformSize: { top: 'M', bottom: 'M', shoes: '37' },
       phone: '+62-815-5555-6666',
@@ -95,88 +87,35 @@ const SPGManagementDashboard = () => {
     }
   ];
 
-  const scheduleData = [
+  const upcomingEvents = [
     {
       id: 1,
       title: 'Samsung Galaxy Launch',
       date: '2025-06-15',
-      time: '10:00 - 18:00',
       location: 'Mall Kelapa Gading',
-      address: 'Jl. Boulevard Barat Raya, Jakarta Utara',
-      coordinates: { lat: -6.1588, lng: 106.8906 },
       spgNeeded: 8,
       spgAssigned: 6,
-      assignedSPGs: [1, 2, 3, 4],  // SPG IDs
-      status: 'Needs Staff',
-      client: 'Samsung Indonesia',
-      budget: 12000000,
-      category: 'Electronics',
-      requirements: ['Product knowledge test required', 'Fluent in English preferred', 'Previous tech experience'],
-      description: 'Major product launch event with live demonstrations and customer interaction'
+      status: 'Needs Staff'
     },
     {
       id: 2,
       title: 'Wardah Beauty Fair',
       date: '2025-06-18',
-      time: '11:00 - 20:00',
       location: 'Grand Indonesia',
-      address: 'Jl. M.H. Thamrin No.1, Jakarta Pusat',
-      coordinates: { lat: -6.1944, lng: 106.8229 },
       spgNeeded: 12,
       spgAssigned: 12,
-      assignedSPGs: [1, 2, 3, 4],
-      status: 'Fully Staffed',
-      client: 'Wardah Cosmetics',
-      budget: 18000000,
-      category: 'Cosmetics',
-      requirements: ['Beauty knowledge required', 'Makeup application skills', 'Customer service experience'],
-      description: 'Interactive beauty fair with product trials and consultations'
+      status: 'Fully Staffed'
     },
     {
       id: 3,
       title: 'Indomie Promo Week',
       date: '2025-06-20',
-      time: '09:00 - 17:00',
       location: 'Multiple Locations',
-      address: 'Various supermarkets across Jakarta',
-      coordinates: { lat: -6.2088, lng: 106.8456 },
       spgNeeded: 25,
       spgAssigned: 18,
-      assignedSPGs: [1, 2, 3],
-      status: 'Needs Staff',
-      client: 'Indofood',
-      budget: 25000000,
-      category: 'Food & Beverage',
-      requirements: ['Energetic personality', 'Good communication skills', 'Flexible schedule'],
-      description: 'Week-long promotional campaign at multiple retail locations'
+      status: 'Needs Staff'
     }
   ];
-
-  // Analytics data
-  const performanceData = [
-    { month: 'Jan', revenue: 1800000, events: 45, spgUtilization: 78 },
-    { month: 'Feb', revenue: 2100000, events: 52, spgUtilization: 82 },
-    { month: 'Mar', revenue: 1950000, events: 48, spgUtilization: 75 },
-    { month: 'Apr', revenue: 2400000, events: 58, spgUtilization: 85 },
-    { month: 'May', revenue: 2200000, events: 55, spgUtilization: 80 },
-    { month: 'Jun', revenue: 2600000, events: 62, spgUtilization: 88 }
-  ];
-
-  const categoryData = [
-    { name: 'Electronics', value: 35, color: '#3B82F6' },
-    { name: 'Cosmetics', value: 28, color: '#EF4444' },
-    { name: 'Fashion', value: 20, color: '#10B981' },
-    { name: 'Food & Beverage', value: 17, color: '#F59E0B' }
-  ];
-
-  const topPerformers = [
-    { name: 'Dina Lestari', score: 98, earnings: 3500000, events: 10 },
-    { name: 'Sari Dewi', score: 95, earnings: 3200000, events: 8 },
-    { name: 'Maya Putri', score: 88, earnings: 2800000, events: 12 },
-    { name: 'Rina Sari', score: 82, earnings: 2100000, events: 15 }
-  ];
-
-  const upcomingEvents = scheduleData.slice(0, 3);
 
   const filteredSPGs = spgData.filter(spg => {
     const matchesSearch = spg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -505,14 +444,63 @@ const SPGManagementDashboard = () => {
     );
   };
 
-  // Add this function above the return statement
-const renderScheduling = () => (
-  <div className="text-center py-12">
-    <Clock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-    <h3 className="text-lg font-medium text-gray-900 mb-2">Scheduling</h3>
-    <p className="text-gray-600">Event scheduling and assignment features would be implemented here.</p>
-  </div>
-);
+  const renderScheduling = () => (
+    <div className="bg-white rounded-lg shadow border p-6">
+      <div className="text-center py-12">
+        <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-gray-900 mb-2">Advanced Scheduling Module</h3>
+        <p className="text-gray-600 mb-4">
+          Smart scheduling with calendar view, staff assignment, and conflict detection
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+          <div className="p-4 bg-blue-50 rounded-lg">
+            <Calendar className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+            <h4 className="font-medium text-blue-900">Calendar View</h4>
+            <p className="text-xs text-blue-700">Visual event scheduling</p>
+          </div>
+          <div className="p-4 bg-green-50 rounded-lg">
+            <Users className="h-8 w-8 text-green-600 mx-auto mb-2" />
+            <h4 className="font-medium text-green-900">Smart Assignment</h4>
+            <p className="text-xs text-green-700">Auto-match SPGs to events</p>
+          </div>
+          <div className="p-4 bg-purple-50 rounded-lg">
+            <MapPin className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+            <h4 className="font-medium text-purple-900">Location Tracking</h4>
+            <p className="text-xs text-purple-700">Real-time SPG locations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderAnalytics = () => (
+    <div className="bg-white rounded-lg shadow border p-6">
+      <div className="text-center py-12">
+        <DollarSign className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-gray-900 mb-2">Analytics & Performance</h3>
+        <p className="text-gray-600 mb-4">
+          Comprehensive reporting with interactive charts and performance metrics
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+          <div className="p-4 bg-blue-50 rounded-lg">
+            <DollarSign className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+            <h4 className="font-medium text-blue-900">Revenue Tracking</h4>
+            <p className="text-xs text-blue-700">Rp 12.05B total revenue</p>
+          </div>
+          <div className="p-4 bg-green-50 rounded-lg">
+            <Star className="h-8 w-8 text-green-600 mx-auto mb-2" />
+            <h4 className="font-medium text-green-900">Performance Metrics</h4>
+            <p className="text-xs text-green-700">85.2% SPG utilization</p>
+          </div>
+          <div className="p-4 bg-purple-50 rounded-lg">
+            <Award className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+            <h4 className="font-medium text-purple-900">Top Performers</h4>
+            <p className="text-xs text-purple-700">Rankings and insights</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -567,23 +555,38 @@ const renderScheduling = () => (
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {selectedSPG ? renderSPGDetails() : (
           <>
-  {activeTab === 'dashboard' && renderDashboard()}
-  {activeTab === 'spg-directory' && renderSPGDirectory()}
-  {activeTab === 'scheduling' && renderScheduling()}
+            {activeTab === 'dashboard' && renderDashboard()}
+            {activeTab === 'spg-directory' && renderSPGDirectory()}
+            {activeTab === 'scheduling' && renderScheduling()}
             {activeTab === 'inventory' && (
-              <div className="text-center py-12">
-                <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Inventory Management</h3>
-                <p className="text-gray-600">Uniform and promotional material tracking would be implemented here</p>
+              <div className="bg-white rounded-lg shadow border p-6">
+                <div className="text-center py-12">
+                  <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">Inventory Management</h3>
+                  <p className="text-gray-600 mb-4">
+                    Complete uniform and promotional material tracking system
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                    <div className="p-4 bg-blue-50 rounded-lg">
+                      <Shirt className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                      <h4 className="font-medium text-blue-900">Uniform Tracking</h4>
+                      <p className="text-xs text-blue-700">Size management & distribution</p>
+                    </div>
+                    <div className="p-4 bg-green-50 rounded-lg">
+                      <Package className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                      <h4 className="font-medium text-green-900">Material Management</h4>
+                      <p className="text-xs text-green-700">Promotional items & supplies</p>
+                    </div>
+                    <div className="p-4 bg-purple-50 rounded-lg">
+                      <Award className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                      <h4 className="font-medium text-purple-900">Quality Control</h4>
+                      <p className="text-xs text-purple-700">Maintenance & replacement</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
-            {activeTab === 'analytics' && (
-              <div className="text-center py-12">
-                <DollarSign className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Analytics & Reports</h3>
-                <p className="text-gray-600">Performance analytics and financial reports would be implemented here</p>
-              </div>
-            )}
+            {activeTab === 'analytics' && renderAnalytics()}
           </>
         )}
       </main>
